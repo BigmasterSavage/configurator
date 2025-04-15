@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Генератор конфигурации</title>
+</head>
+<body>
+    <h1>Введите данные для генерации конфигурации</h1>
+    <form action="/generate-config" method="post">
+        <label for="ip">IP:</label>
+        <input type="text" id="ip" name="ip" required><br><br>
+
+        <label for="subnet">Subnet:</label>
+        <input type="text" id="subnet" name="subnet" required><br><br>
+
+        <label for="vlan_mng">VLAN Management:</label>
+        <input type="text" id="vlan_mng" name="vlan_mng" required><br><br>
+
+        <label for="gate">Gateway:</label>
+        <input type="text" id="gate" name="gate" required><br><br>
+
+        <label for="hostname">Hostname:</label>
+        <input type="text" id="hostname" name="hostname" required><br><br>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <button type="submit">Сгенерировать конфиг</button>
+    </form>
+</body>
+</html>

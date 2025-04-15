@@ -1,0 +1,45 @@
+---
+- name: Создать конфигурацию для коммутатора
+  hosts: localhost
+  gather_facts: no
+
+  vars_prompt:
+    - name: ip
+      prompt: "IP-адрес коммутатора"
+      private: no
+
+    - name: subnet
+      prompt: "Маску"
+      private: no
+
+    - name: vlan_mng
+      prompt: "Номер vlan"
+      private: no
+
+    - name: gate
+      prompt: "IP шлюза"
+      private: no
+
+    - name: hostname
+      prompt: "Имя коммутатора"
+      private: no
+
+    - name: location
+      prompt: "Название локации"
+      private: no
+
+  tasks:
+    - name: Грузим постоянные переменные из файла
+      include_vars:
+        file: /srv/ansible/amenet/create_conf/vars/variables.yml
+
+    - name: Генерим конфиг из шаблона
+      template:
+        src: /srv/ansible/amenet/create_conf/templates/d-link/DGS-1510-28_v1.j2
+        dest: output.txt
+      notify: Display generated file path
+
+  handlers:
+    - name: Показать путь
+      debug:
+        msg: "The file has been generated at: {{ playbook_dir }}/output.txt"

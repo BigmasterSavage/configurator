@@ -1,0 +1,68 @@
+conf t
+
+
+username {{ admin_login }} privilege 15 password 7 {{ admin_passwd }}
+
+
+vlan {{ vlan_mng }}
+exit
+
+interface vlan {{ vlan_mng }}
+ip address {{ ip }} {{ subnet }}
+exit
+
+{% for i in range(1, 25) %}
+interface ethernet 1/0/{{ i }}
+switchport mode access
+switchport access vlan {{ vlan_mng }}
+loopback-detection
+storm-control broadcast level 5 3
+storm-control multicast level 5 3
+voice vlan enable
+exit
+{% endfor %}
+
+{% for i in range(25, 29) %}
+interface ethernet 1/0/{{ i }}
+switchport mode trunk
+loopback-detection
+storm-control broadcast level 5 3
+storm-control multicast level 5 3
+exit
+{% endfor %}
+
+
+ip ssh server
+ssh user admin authentication-method password
+
+
+no ip telnet server
+
+
+snmp-server
+snmp-server enable traps
+snmp-server name {{ hostname }}
+snmp-server location {{ location }}
+snmp-server contact 27-72
+
+
+clock timezone + 10 0
+sntp enable
+sntp server {{ ntp1 }}
+sntp server {{ ntp2 }}
+sntp interval 60
+
+
+logging buffered severity informational write-delay 300
+logging server {{ logserver }} severity informational facility 23 port 514
+
+
+voice vlan mac-address 80-5E-0C-00-00-00 FF-FF-FF-00-00-00 description Yealink
+voice vlan mac-address C0-74-AD-00-00-00 FF-FF-FF-00-00-00 description Grandstream
+voice vlan mac-address D0-1B-D4-00-00-00 FF-FF-FF-00-00-00 description cisco
+
+
+errdisable recovery cause storm-control
+errdisable recovery cause loopback-detect  interval 30
+
+exit

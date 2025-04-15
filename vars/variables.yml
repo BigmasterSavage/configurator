@@ -1,0 +1,9 @@
+admin_login: admin
+admin_passwd: admin
+logserver: 192.168.11.11
+dns1: 192.168.22.22
+dns2: 192.168.33.33
+ntp1: 192.168.44.44
+ntp2: 192.168.55.55
+backup: 192.168.66.66
+snmp: public
